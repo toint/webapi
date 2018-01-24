@@ -26,7 +26,7 @@ public class WebFlowAction {
 		
 		final String className = ApplicationResourceUtils.getValue(config.get("fnc"));
 		final String params = config.get("data");
-		JSONObject obj = new JSONObject("{" + params + "}");
+		JSONObject obj = new JSONObject(params);
 		try {
 			Class<?> clazz = Class.forName(className);
 			Object t = clazz.newInstance();
