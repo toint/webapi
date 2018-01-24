@@ -26,23 +26,27 @@ public class WebFlowAction {
 		
 		final String className = ApplicationResourceUtils.getValue(config.get("fnc"));
 		final String params = config.get("data");
-		JSONObject obj = new JSONObject(params);
+		JSONObject obj = new JSONObject("{" + params + "}");
 		try {
 			Class<?> clazz = Class.forName(className);
 			Object t = clazz.newInstance();
 			
-			Method method = t.getClass().getMethod(String.valueOf(config.get("fnc")), String.class);
-			
-			List<String> parameter = new ArrayList<String>();
+			String[] parameter = new String[obj.length()];
+			Class[] arsTypes = new Class[obj.length()];
+			int i = 0;
 			Set<String> keys = obj.keySet();
 			for (String s : keys) {
-				parameter.add(String.valueOf(obj.get(s)));
+				parameter[i] = String.valueOf(obj.get(s));
+				arsTypes[i++] = String.class;
 			}
 			
-			Object result = method.invoke(t, parameter.toArray());
+			Method method = t.getClass().getMethod(String.valueOf(config.get("fnc")), arsTypes);
 			
+			Object result = method.invoke(t, parameter);
 			
-			System.out.println(result.toString());
+			json.put("code", "1");
+			json.put("message", "success");
+			json.put("data", String.valueOf(result));
 			
 			
 		} catch (ClassNotFoundException e) {

@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
  */
 public class ApplicationResourceUtils {
 	
-	private static ResourceBundle rb = ResourceBundle.getBundle("application");
+	private static ResourceBundle rb = ResourceBundle.getBundle("asia.luckyit.api.utils.Functions");
 	
 	public static String getValue(String key) {
 		return rb.getString(key);

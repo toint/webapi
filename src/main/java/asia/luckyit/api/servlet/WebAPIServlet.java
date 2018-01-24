@@ -36,11 +36,18 @@ public class WebAPIServlet extends HttpServlet {
 		config.put("client_ip", clientIP);
 		config.put("data", data);
 		
+		if (null == fnc) {
+			response.getWriter().printf("OKI");
+			return;
+		}
+		
 		JSONObject json = new JSONObject();
 		WebFlowAction action = new WebFlowAction();
 		json = action.process(config);
 		
-		response.getWriter().println(json.toString());
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(json.toString());
 	}
 
 	protected void doPost(HttpServletRequest request, 
@@ -48,15 +55,17 @@ public class WebAPIServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	public static void main(String[] args) {
-		final Map<String, String> config = new HashMap<String, String>();
-		config.put("fnc", "login");
-		config.put("client_ip", "");
-		config.put("data", "{userName:12345, password: toint@123}");
-		
-		JSONObject json = new JSONObject();
-		WebFlowAction action = new WebFlowAction();
-		json = action.process(config);
-	}
+//	public static void main(String[] args) {
+//		final Map<String, String> config = new HashMap<String, String>();
+//		config.put("fnc", "login");
+//		config.put("client_ip", "");
+//		config.put("data", "{userName:12345, password: toint@123}");
+//		
+//		JSONObject json = new JSONObject();
+//		WebFlowAction action = new WebFlowAction();
+//		json = action.process(config);
+//	}
+	
+	
 
 }
